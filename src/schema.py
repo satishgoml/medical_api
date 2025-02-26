@@ -1,5 +1,5 @@
 import operator
-from typing import Annotated, List, Tuple
+from typing import Annotated, List
 from typing_extensions import TypedDict
 from pydantic import BaseModel, Field
 
@@ -12,7 +12,7 @@ class Task(BaseModel):
     agent: AgentNames = Field(description="Agent to execute the task")
 
 class CompletedTask(Task):
-    result : str = Field(description="Result of task")
+    result: str = Field(description="Result of task")
 
 class Plan(BaseModel):
     """Plan to follow in future"""
@@ -21,9 +21,10 @@ class Plan(BaseModel):
 class PlanExecute(TypedDict):
     input: str
     plan: Plan
-    past_steps: Annotated[List[Tuple], operator.add]
+    past_steps: Annotated[List[CompletedTask], operator.add]
     response: str
     intial_diagnosis: str
+    stop_reason: str
 
 
 
